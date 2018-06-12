@@ -1,11 +1,11 @@
-//import games from './games'
+import batches from './batches'
 import users from './users'
 import login from './login'
 import currentUser from './currentUser'
 import signup from './signup'
 
 export default {
-  // games,
+  batches,
   users,
   login,
   currentUser,
