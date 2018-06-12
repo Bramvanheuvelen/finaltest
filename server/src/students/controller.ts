@@ -10,7 +10,7 @@ export default class StudentController {
 @HttpCode(201)
 async createStudent(
   @Body() student: Student,
-  @BodyParam('batchId', {required: true}) batchId: number
+  @BodyParam('batchId', {required: true}) batchId: string
 ) {
   const batch = await Batch.findOne(batchId)
   if (batch instanceof Batch) student.batch = batch
