@@ -1,15 +1,21 @@
-import { JsonController, Post, Put, Param, Get, Body, HttpCode, NotFoundError, Delete } from 'routing-controllers'
+import { JsonController, Post, Put, Param, Get, Body, HttpCode, NotFoundError, Delete, BodyParam } from 'routing-controllers'
 import { Student } from './entity';
+import { Batch } from '../batches/entity';
+import { Evaluation } from '../evaluations/entity';
 
 @JsonController()
 export default class StudentController {
 
     @Post('/students')
 @HttpCode(201)
-createStudent(
-  @Body() student: Student
+async createStudent(
+  @Body() student: Student,
+  @BodyParam('batchId', {required: true}) batchId: number
 ) {
-  return student.save()
+  const batch = await Batch.findOne(batchId)
+  if (batch instanceof Batch) student.batch = batch
+  const entity = await student.save()
+  return { entity }
 }
 
 @Put('/students/:id')
@@ -40,6 +46,12 @@ async updatePage(
 async deleteStudent(
   @Param('id') id: number
   ) {
-    return Student.delete(id)
+    const student = await Student.findOne(id)
+    if (student) {
+      const evaluations = await Evaluation.find({student: student})
+      evaluations.map(evaluation => evaluation.remove())
+      await student.remove()
+    }
+    return 'Succes!'
   }
 }

@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { IsString } from 'class-validator';
 import {Type} from "class-transformer";
 import {BaseEntity} from 'typeorm/repository/BaseEntity'
-//import { User } from '../teachers/entity'
+import Teacher from '../teachers/entity'
+import { Student } from '../students/entity';
 
 
 @Entity()
@@ -23,8 +24,10 @@ export class Evaluation extends BaseEntity {
 @Column('text')
 date: Date
 
-// @ManyToOne(type => User, user => user.evaluation)
-// user: User;
+@ManyToOne(_ => Teacher, teacher => teacher.evaluation, {eager:true})
+teacher: Teacher;
 
+@ManyToOne(_ => Student, student => student.evaluations)
+student: Student
 
 }

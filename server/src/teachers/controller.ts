@@ -12,14 +12,7 @@ export default class TeacherController {
     const {password, ...rest} = data
     const entity = Teacher.create(rest)
     await entity.setPassword(password)
-
     const teacher = await entity.save()
-
-    // io.emit('action', {
-    //   type: 'ADD_USER',
-    //   payload: entity
-    // })
-
     return teacher
   }
 
