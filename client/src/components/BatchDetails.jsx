@@ -2,9 +2,22 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { fetchBatch } from "../actions/batch";
 import { fetchAllBatches } from "../actions/batches";
-import { Link } from "react-router-dom";
 import { addStudent, deleteStudent, fetchStudent } from "../actions/students";
 import CreateStudent from "./CreateStudent";
+import { Link } from "react-router-dom";
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+
+//import PropTypes from 'prop-types';
+//import { withStyles } from '@material-ui/core/styles';
+// import GridList from '@material-ui/core/GridList';
+// import GridListTile from '@material-ui/core/GridListTile';
+// import GridListTileBar from '@material-ui/core/GridListTileBar';
+// import ListSubheader from '@material-ui/core/ListSubheader';
+// import IconButton from '@material-ui/core/IconButton';
+// import InfoIcon from '@material-ui/icons/Info';
+//import tileData from './tileData';
+
 
 class BatchDetails extends PureComponent {
   state = {}
@@ -36,50 +49,50 @@ class BatchDetails extends PureComponent {
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
-          <table>
-            <thead>
-              <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Picture</th>
-              </tr>
-            </thead>
-            <tbody>
-              {batch.students.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.surname}</td>
-                  <td>{student.lastname}</td>
-                  <td>{student.picture}</td>
-                  <td>
-                    {" "}
-                    <button
-                      onClick={() => this.deleteStudent(student.id)}
-                    >
-                      Delete Student
-                    </button>
-                  </td>
-                  <td>
-                    {" "}
-                    <Link
-                      className="link"
-                      to={`/students/${student.id}`}
-                      onClick={() => this.fetchStudent(student.id)}
-                    >
-                      Student profile
-                    </Link>
-                  </td>
+          <Paper className="styles" elevation={4}>
+            <br />
+            <table>
+              <thead>
+                <tr>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Picture</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-
-        <h1>Add new student</h1>
-        <CreateStudent onSubmit={this.addStudent} />
+              </thead>
+         
+              <tbody>
+                {batch.students.map((student) => (
+                  <tr key={student.id}>
+                    <td>{student.surname}</td>
+                    <td>{student.lastname}</td>
+                    <td>{student.picture}</td>
+                    <td>
+                      {" "}
+                      <Button
+                        onClick={() => this.deleteStudent(student.id)}
+                      >
+                      Delete Student
+                      </Button>
+                    </td>
+                    <td>
+                      {" "}
+                      <Link
+                        className="link"
+                        to={`/students/${student.id}`}
+                        onClick={() => this.fetchStudent(student.id)}
+                      >
+                      Student profile
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <h1>Add new student</h1>
+            <CreateStudent onSubmit={this.addStudent} />
+          </Paper>)}
       </div>
-    );
-  }
-}
+    )}}
 
 const mapStateToProps = function(state) {
   return {

@@ -5,6 +5,7 @@ import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addStudent } from '../actions/students'
+import { fetchBatch } from '../actions/batch'
 
 class CreateStudent extends PureComponent {
   constructor(props) {
@@ -17,6 +18,10 @@ class CreateStudent extends PureComponent {
       batch_id: ''
     }
   }
+	
+  // componentDidMount() {
+  //   this.props.fetchBatch(this.props.match.params.id)
+  // }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -83,7 +88,7 @@ class CreateStudent extends PureComponent {
                 onChange={this.handleChange}
               />
             </div>
-
+            <br />
             <Button type="submit">SUBMIT</Button>
           </form>
         </Paper>
@@ -92,4 +97,10 @@ class CreateStudent extends PureComponent {
   }
 }
 
-export default connect(null, {addStudent})(CreateStudent)
+const mapStateToProps = function(state) {
+  return {
+    batch: state.batch
+  };
+};
+
+export default connect(mapStateToProps, {addStudent, fetchBatch})(CreateStudent)

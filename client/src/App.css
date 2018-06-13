@@ -34,12 +34,6 @@ div form :last-child {
   background: red !important;
 }
 
-.createQuizButton {
-  margin-top: 10px !important;
-  align-self: center;
-  width: 50% !important;
-}
-
 .logIn {
   color: white;
 }

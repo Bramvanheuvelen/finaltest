@@ -5,9 +5,9 @@ export const ADD_BATCH = "ADD_BATCH";
 
 const baseUrl = "http://localhost:4000";
 
-export const fetchBatch = batchId => dispatch => {
+export const fetchBatch = id => dispatch => {
   request
-    .get(`${baseUrl}/batches/${batchId}`)
+    .get(`${baseUrl}/batches/${id}`)
     .then(response =>
       dispatch({
         type: FETCH_BATCH,

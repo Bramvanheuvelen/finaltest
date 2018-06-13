@@ -84,7 +84,7 @@ class CreateEvaluation extends PureComponent {
               />
             </div>
             <div>
-              <label>Start Date</label><br/>	
+              <label>Evaluation Date</label><br/>	
               <TextField
                 label=""
                 name="date"

@@ -62,16 +62,16 @@ class StudentDetails extends PureComponent {
           <table>
             <thead>
               <tr>
-                <th>Evaluation Date</th>
-                <th>Color</th>
-                <th>Comment</th>
+                <th>Score</th>
+                <th>Evaluation date</th>
+                <th>Remark</th>
               </tr>
             </thead>
             <tbody>
               {student.evaluations.map(evaluation => (
                 <tr key={evaluation.id}>
                   <td>{evaluation.score}</td>
-                  <td>{evaluation.date}</td>
+                  <td>{evaluation.date.slice(0, 10)}</td>
                   <td>{evaluation.remark}</td>
                 </tr>
               ))}

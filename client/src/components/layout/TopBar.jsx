@@ -6,10 +6,10 @@ import Button from "@material-ui/core/Button";
 import {withRouter} from 'react-router'
 import {userId} from '../../jwt'
 import {connect} from 'react-redux'
-import Icon from '@material-ui/core/Icon'
+import AccountIcon from '@material-ui/core/Icon'
 
 const TopBar = (props) => {
-  const { location, history, user } = props
+  const { location, history, teacher } = props
 
   return (
     <AppBar position="absolute" style={{zIndex:10}}>
@@ -18,8 +18,8 @@ const TopBar = (props) => {
           Teachers Evaluation Tool
         </Typography>
         {
-          user &&
-          <Button color="inherit"><Icon /> { user.firstName }</Button>
+          teacher &&
+          <Button color="inherit"><AccountIcon /> { teacher.email }</Button>
         }
 
         {
