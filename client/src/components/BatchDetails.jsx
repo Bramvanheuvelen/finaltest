@@ -1,60 +1,100 @@
-import React, {PureComponent} from 'react'
-import {connect} from 'react-redux'
-import {fetchBatch} from '../actions/batches'
-import {fetchStudent, fetchAllStudents} from '../actions/students'
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { fetchBatch } from "../actions/batch";
+import { fetchAllBatches } from "../actions/batches";
 import { Link } from "react-router-dom";
-import Moment from 'react-moment'
-import CreateStudent from './CreateStudent'
-//import AdForm from './AdForm'
+import { addStudent, deleteStudent, fetchStudent } from "../actions/students";
+import CreateStudent from "./CreateStudent";
 
 class BatchDetails extends PureComponent {
-  state = {
+  state = {}
+
+  componentDidMount() {
+    this.props.fetchBatch(this.props.match.params.id)
   }
 
-componentWillMount(props) {
+  addStudent = student => {
+    const { batch } = this.props;
+    student = { ...student, batch: batch.id };
+    this.props.addStudent(student);
+  };
+
+  deleteStudent(studentId) {
+    this.props.deleteStudent(studentId)
     this.props.fetchBatch(this.props.match.params.id)
-    // this.props.fetchAllStudents()
+  }
+
+  fetchStudent(studentId) {
+    this.props.fetchStudent(studentId);
   }
 
   render() {
-    const {batch} = this.props
+    const { batch } = this.props;
     if (!batch) return null
 
     return (
       <div>
+        {!batch.id && <div>Loading...</div>}
+        {batch.id && (
           <table>
-                  <thead>
-                  <tr>
-            <th>Batch nr 
-            { batch.batch_id }
-                    </th>
-            <th>Start date: <Moment format="YYYY/MM/DD">{ batch.startDate } </Moment></th>
-            <th>End date: { batch.endDate }</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Picture</th>
+              </tr>
             </thead>
-                  <tbody>
-            { batch.students.map(student => (<tr key={student.id}>
-                      <td><Link to={ `/students/${student.id}` } onClick={() => this.fetchStudent(student.id)}>Student {student.surname}{student.lastname}</Link></td>
-                      <td>{student.picture}</td>
-                      <td>{student.evaluation}</td>
-                    </tr>)) }
-                    </tbody>
-                </table>
-                <div>
-                <h1>Add a Student</h1>
-   <CreateStudent href='/students/create' />
-   </div>
-     
+            <tbody>
+              {batch.students.map((student) => (
+                <tr key={student.id}>
+                  <td>{student.surname}</td>
+                  <td>{student.lastname}</td>
+                  <td>{student.picture}</td>
+                  <td>
+                    {" "}
+                    <button
+                      onClick={() => this.deleteStudent(student.id)}
+                    >
+                      Delete Student
+                    </button>
+                  </td>
+                  <td>
+                    {" "}
+                    <Link
+                      className="link"
+                      to={`/students/${student.id}`}
+                      onClick={() => this.fetchStudent(student.id)}
+                    >
+                      Student profile
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        <h1>Add new student</h1>
+        <CreateStudent onSubmit={this.addStudent} />
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = function (state, props) {
+const mapStateToProps = function(state) {
   return {
     batch: state.batch,
     students: state.students
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, {fetchBatch, fetchStudent, fetchAllStudents})(BatchDetails )
+export default connect(
+  mapStateToProps,
+  {
+    fetchBatch,
+    fetchAllBatches,
+    addStudent,
+    deleteStudent,
+    fetchStudent
+  }
+)(BatchDetails);

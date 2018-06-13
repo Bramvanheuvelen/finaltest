@@ -19,8 +19,8 @@ export const logout = () => ({
 })
 
 export const login = (email, password) => (dispatch) =>
-	request
-		.post(`${baseUrl}/logins`)
+  request
+    .post(`${baseUrl}/logins`)
     .send({email, password})
     .then(result => {
       dispatch({
@@ -41,25 +41,25 @@ export const login = (email, password) => (dispatch) =>
     })
 
 export const signup = (email, password) => (dispatch) =>
-	request
-		.post(`${baseUrl}/teachers`)
-		.send({ email, password })
-		.then(result => {
-			dispatch({
-				type: USER_SIGNUP_SUCCESS
-			})
-		})
-		.catch(err => {
-			if (err.status === 400) {
-				dispatch({
-					type: USER_SIGNUP_FAILED,
-					payload: err.response.body.message || 'Unknown error'
-				})
-			}
-			else {
-				console.error(err)
-			}
-		})
+  request
+    .post(`${baseUrl}/teachers`)
+    .send({ email, password })
+    .then(result => {
+      dispatch({
+        type: USER_SIGNUP_SUCCESS
+      })
+    })
+    .catch(err => {
+      if (err.status === 400) {
+        dispatch({
+          type: USER_SIGNUP_FAILED,
+          payload: err.response.body.message || 'Unknown error'
+        })
+      }
+      else {
+        console.error(err)
+      }
+    })
 
 export const getUsers = () => (dispatch, getState) => {
   const state = getState()
