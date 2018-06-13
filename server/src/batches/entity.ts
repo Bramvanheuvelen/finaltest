@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { IsNumber, IsDate } from 'class-validator';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { IsString, IsDate } from 'class-validator';
 import { Type } from "class-transformer";
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-//import { Student } from '../students/entity';
-//import { isDate } from 'util';
+import { Student } from '../students/entity';
+
 
 
 @Entity('batches')
@@ -12,9 +12,9 @@ export class Batch extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @IsNumber()
-  @Column('integer')
-  batch_id: number
+
+  @Column('text')
+  batch_id: String
 
  @IsDate()
   @Column('date')
@@ -26,7 +26,7 @@ export class Batch extends BaseEntity {
 @Type(() => Date)
 endDate: Date
 
-// @ManyToOne(type => Student, student => student.batches)
-// student: Student;
+@OneToMany(_ => Student, student => student.batch, {eager:true})
+students: Student[]
 
 }

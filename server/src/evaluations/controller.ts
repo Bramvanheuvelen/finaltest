@@ -1,15 +1,24 @@
-import { JsonController, Post, Put, Param, Get, Body, HttpCode, NotFoundError } from 'routing-controllers'
+import { JsonController, Post, Put, Param, Get, Body, HttpCode, NotFoundError, BodyParam } from 'routing-controllers'
 import { Evaluation } from './entity';
+import { Student } from '../students/entity';
+import Teacher from '../teachers/entity';
 
 @JsonController()
 export default class EvaluationController {
 
     @Post('/evaluation')
 @HttpCode(201)
-createEvaluation(
-  @Body() evaluation: Evaluation
+async createEvaluation(
+  @Body() evaluation: Evaluation,
+  @BodyParam('student_id', {required:true}) student_id: number,
+  @BodyParam('teacher_id', {required:true}) teacher_id: number
 ) {
-  return evaluation.save()
+  const student = await Student.findOne(student_id)
+  if (student instanceof Student) evaluation.student = student
+  const teacher = await Teacher.findOne(teacher_id)
+  if (teacher instanceof Teacher) evaluation.teacher = teacher
+  const entity = await evaluation.save()
+  return { entity }
 }
 
 @Put('/evaluation/:id')
