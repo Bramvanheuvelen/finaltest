@@ -5,6 +5,9 @@ import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addEvaluation } from '../actions/evaluations'
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
 
 class CreateEvaluation extends PureComponent {
   constructor(props) {
@@ -21,7 +24,8 @@ class CreateEvaluation extends PureComponent {
     this.setState({
       score: "",
       remark: "",
-      date: ''
+      date: '',
+      selectedValue: ""
     });
   };
 
@@ -29,7 +33,8 @@ class CreateEvaluation extends PureComponent {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value
+      [name]: value,
+      selectedValue: event.target.value
     });
   };
 
@@ -41,11 +46,30 @@ class CreateEvaluation extends PureComponent {
         <Paper className="styles" elevation={4}>
           <form onSubmit={this.handleSubmit}>
             <div>
-              <TextField
-                label="Score"
+              <br/>
+              <FormLabel component="legend">Score</FormLabel>
+              <FormControlLabel
+                value="Green"
                 name="score"
-                id="score"
-                value={this.state.score || initialValues.score || ""}
+                control={<Radio />}
+                label="Green"
+                checked={this.state.selectedValue === "Green"}
+                onChange={this.handleChange}
+              />
+              <FormControlLabel
+                value="Yellow"
+                name="score"
+                control={<Radio />}
+                label="Yellow"
+                checked={this.state.selectedValue === "Yellow"}
+                onChange={this.handleChange}
+              />
+              <FormControlLabel
+                value="Red"
+                name="score"
+                control={<Radio />}
+                label="Red"
+                checked={this.state.selectedValue === "Red"}
                 onChange={this.handleChange}
               />
             </div>
@@ -60,10 +84,12 @@ class CreateEvaluation extends PureComponent {
               />
             </div>
             <div>
+              <label>Start Date</label><br/>	
               <TextField
-                label="Date"
+                label=""
                 name="date"
                 id="date"
+                type="date"
                 value={this.state.date || initialValues.date || ""}
                 onChange={this.handleChange}
               />

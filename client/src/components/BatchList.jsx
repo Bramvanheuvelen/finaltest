@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { fetchAllBatches } from "../actions/batches";
 import { fetchBatch, addBatch } from "../actions/batch";
 import CreateBatch from './CreateBatch'
+import Paper from '@material-ui/core/Paper'
 
 class BatchesList extends PureComponent {
 
@@ -23,40 +24,45 @@ class BatchesList extends PureComponent {
     const { batches } = this.props;
 
     const OrderedBatches = batches.sort(function(a, b) {
-      return a.id - b.id;
+      return a.batch_id - b.batch_id;
     });
 
     return (
       <div className="App">
         <h1>All the Batches</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Batch NR</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {OrderedBatches.map(batch => (
-              <tr key={batch.id}>
-                <td>{batch.id}</td>
-                <td>{batch.startDate}</td>
-                <td>{batch.endDate}</td>
-                <td>
-                  <Link
-                    className="link"
-                    to={`/batches/${batch.id}`}
-                    onClick={() => this.fetchBatch(batch.id)}
-                  >
-                    See the class
-                  </Link>
-                </td>
+        <Paper className="styles" elevation={4}>
+          <table>
+            <thead>
+              <tr>
+                <th>Batch NR</th>
+                <th>Start Date</th>
+                <th>End Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <CreateBatch href='/batches/create' />
+            </thead>
+            <tbody>
+              {OrderedBatches.map(batch => (
+                <tr key={batch.id}>
+                  <td>{batch.batch_id}</td>
+                  <td>
+                    {batch.startDate.slice(0, 10)}
+                  </td>
+                  <td>{batch.endDate.slice(0, 10)}</td>
+                  <td>
+                    <Link
+                      className="link"
+                      to={`/batches/${batch.id}`}
+                      onClick={() => this.fetchBatch(batch.id)}
+                    >
+                    Click for class
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <br/>
+          <CreateBatch href='/batches/create' />
+        </Paper>
       </div>
     );
   }

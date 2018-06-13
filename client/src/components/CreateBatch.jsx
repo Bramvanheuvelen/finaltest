@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import { connect } from 'react-redux'
 import { createBatch } from '../actions/batches'
+import Button from '@material-ui/core/Button'
 
 class CreateBatch extends PureComponent {
   constructor(props) {
@@ -30,27 +31,27 @@ class CreateBatch extends PureComponent {
 	  return (
 	    <form onSubmit={this.handleSubmit}>
 	      <div>
-	        <label htmlFor="batch_id">Batch nr</label>
+	        <label htmlFor="batch_id">Batch nr </label>
 	        <input name="batch_id" id="batch_id" value={
 	          this.state.batch_id || ''
 	        } onChange={ this.handleChange } />
 	      </div>
 
 	      <div>
-	        <label htmlFor="startDate">Start Date</label>
-	        <input name="startDate" id="startDate" value={
+	        <label htmlFor="startDate">Start Date </label>
+	        <input name="startDate" id="startDate" type="date" value={
 	          this.state.startDate ||  ''
 	        } onChange={ this.handleChange } />
 	      </div>
 
 	      <div>
-	        <label htmlFor="endDate">End Date</label>
-	        <input name="endDate" id="endDate" value={
+	        <label htmlFor="endDate">End Date </label>
+	        <input name="endDate" id="endDate" type="date" value={
 	          this.state.endDate ||  ''
 	        } onChange={ this.handleChange } />
 	      </div>
-
-	      <button type="submit" onSubmit={this.handleSubmit}>Save</button>
+	      <br/>
+	      <Button type="submit" onSubmit={this.handleSubmit}>Save</Button>
 	    </form>
 	  )
 	}
