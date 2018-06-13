@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
-import { IsString, IsDate } from 'class-validator';
+import { IsDate } from 'class-validator';
 import { Type } from "class-transformer";
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import { Student } from '../students/entity';
