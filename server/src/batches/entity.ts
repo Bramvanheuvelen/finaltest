@@ -16,17 +16,17 @@ export class Batch extends BaseEntity {
   @Column('text')
   batch_id: String
 
- @IsDate()
+  @IsDate()
   @Column('date')
   @Type(() => Date)
   startDate: Date
 
   @IsDate()
-@Column('date')
-@Type(() => Date)
-endDate: Date
+  @Column('date')
+  @Type(() => Date)
+  endDate: Date
 
-@OneToMany(_ => Student, student => student.batch, {eager:true})
-students: Student[]
+  @OneToMany(_ => Student, student => student.batch, {eager:true})
+  students: Student[]
 
 }
