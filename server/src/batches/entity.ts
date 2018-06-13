@@ -12,9 +12,9 @@ export class Batch extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @IsString()
+
   @Column('text')
-  batchId: String
+  batch_id: String
 
  @IsDate()
   @Column('date')
