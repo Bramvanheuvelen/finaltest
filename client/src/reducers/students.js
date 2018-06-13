@@ -15,9 +15,6 @@ export default function(state = [], action ) {
       }
       else return student
     })
-
-  // case DELETE_STUDENT:
-  //   return [...state]
         
   default: 
     return state

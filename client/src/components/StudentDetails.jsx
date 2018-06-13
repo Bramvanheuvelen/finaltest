@@ -1,8 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-// import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-// import { Link } from "react-router-dom";
 import { updateStudent, fetchStudent } from "../actions/students";
 import { addEvaluation } from "../actions/evaluations";
 import { fetchBatch } from "../actions/batch";
@@ -22,14 +20,6 @@ class StudentDetails extends PureComponent {
         edit: !this.state.edit
       });
     };
-
-  // componentDidUpdate(prevProps) {
-  //   const { id } = this.props.match.params;
-
-  //   if (!this.props.student.id) {
-  //     this.props.fetchStudent(id);
-  //   }
-  // }
 
     componentDidMount() {
       this.props.fetchStudent(this.props.match.params.id)
@@ -102,7 +92,4 @@ const mapStateToProps = function(state, props) {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchStudent, updateStudent, fetchBatch, addEvaluation }
-)(StudentDetails);
+export default connect(mapStateToProps,{fetchStudent, updateStudent, fetchBatch, addEvaluation})(StudentDetails);

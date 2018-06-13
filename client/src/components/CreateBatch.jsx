@@ -10,8 +10,6 @@ class CreateBatch extends PureComponent {
       startDate: '',
       endDate: ''
     }
-    // this.handleChange = this.handleChange.bind(this);
-		
   }
 
 	handleSubmit = (e) => {

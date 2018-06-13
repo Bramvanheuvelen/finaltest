@@ -3,10 +3,6 @@ import { connect } from 'react-redux'
 import Paper from "@material-ui/core/Paper";
 import "../App.css";
 import TextField from "@material-ui/core/TextField";
-// import Grid from "@material-ui/core/Grid";
-// import Icon from "@material-ui/core/Icon";
-// import FormLabel from "@material-ui/core/FormLabel";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 import { addEvaluation } from '../actions/evaluations'
 

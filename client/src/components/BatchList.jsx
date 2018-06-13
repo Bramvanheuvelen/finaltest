@@ -49,7 +49,7 @@ class BatchesList extends PureComponent {
                     to={`/batches/${batch.id}`}
                     onClick={() => this.fetchBatch(batch.id)}
                   >
-                    See Batch
+                    See the class
                   </Link>
                 </td>
               </tr>
@@ -69,11 +69,4 @@ const mapStateToProps = function(state) {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchAllBatches,
-    fetchBatch,
-    addBatch
-  }
-)(BatchesList);
+export default connect(mapStateToProps, { fetchAllBatches, fetchBatch, addBatch})(BatchesList);

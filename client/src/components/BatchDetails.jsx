@@ -88,13 +88,4 @@ const mapStateToProps = function(state) {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchBatch,
-    fetchAllBatches,
-    addStudent,
-    deleteStudent,
-    fetchStudent
-  }
-)(BatchDetails);
+export default connect(mapStateToProps,{fetchBatch,fetchAllBatches,addStudent,deleteStudent,fetchStudent})(BatchDetails);

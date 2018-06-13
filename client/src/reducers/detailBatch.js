@@ -5,9 +5,6 @@ export default function (state = null, action) {
   case FETCH_BATCH:
     return action.payload
 
-  // case DELETE_STUDENT:
-  //   return [...state]
-
   default:
     return state
   }
