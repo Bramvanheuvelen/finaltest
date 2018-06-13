@@ -1,26 +1,19 @@
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
-import {fetchBatch, updateBatch} from '../actions/ads'
-import AdForm from './AdForm'
+import {fetchBatch} from '../actions/batches'
+import {fetchStudent, fetchAllStudents} from '../actions/students'
+import { Link } from "react-router-dom";
+import Moment from 'react-moment'
+import CreateStudent from './CreateStudent'
+//import AdForm from './AdForm'
 
 class BatchDetails extends PureComponent {
   state = {
-    edit: false
   }
 
-  toggleEdit = () => {
-    this.setState({
-      edit: !this.state.edit
-    })
-  }
-
-  componentWillMount(props) {
+componentWillMount(props) {
     this.props.fetchBatch(this.props.match.params.id)
-  }
-
-  updateBatch= (batch) => {
-    this.props.updateBatch(this.props.match.params.id, ad)
-    this.toggleEdit()
+    // this.props.fetchAllStudents()
   }
 
   render() {
@@ -29,23 +22,29 @@ class BatchDetails extends PureComponent {
 
     return (
       <div>
-        {
-          this.state.edit &&
-          <AdForm initialValues={ad} onSubmit={this.updateAd} />
-        }
-
-        {
-          !this.state.edit &&
-          <div>
-            <h1>{ ad.title }</h1>
-            <h3>Description: { ad.description }</h3>
-            <h3>Picture: { ad.picture }</h3>
-            <h3>Price: { ad.price }</h3>
-            <h3>Email: { ad.email }</h3>
-            <h3>Phone: { ad.phone   }</h3>
-            <button onClick={ this.toggleEdit }>edit</button>
-          </div>
-        }
+          <table>
+                  <thead>
+                  <tr>
+            <th>Batch nr 
+            { batch.batch_id }
+                    </th>
+            <th>Start date: <Moment format="YYYY/MM/DD">{ batch.startDate } </Moment></th>
+            <th>End date: { batch.endDate }</th>
+            </tr>
+            </thead>
+                  <tbody>
+            { batch.students.map(student => (<tr key={student.id}>
+                      <td><Link to={ `/students/${student.id}` } onClick={() => this.fetchStudent(student.id)}>Student {student.surname}{student.lastname}</Link></td>
+                      <td>{student.picture}</td>
+                      <td>{student.evaluation}</td>
+                    </tr>)) }
+                    </tbody>
+                </table>
+                <div>
+                <h1>Add a Student</h1>
+   <CreateStudent href='/students/create' />
+   </div>
+     
       </div>
     )
   }
@@ -53,8 +52,9 @@ class BatchDetails extends PureComponent {
 
 const mapStateToProps = function (state, props) {
   return {
-    batches: state.batches
+    batch: state.batch,
+    students: state.students
   }
 }
 
-export default connect(mapStateToProps, {fetchBatch, updateBatch})(BatchDetails)
+export default connect(mapStateToProps, {fetchBatch, fetchStudent, fetchAllStudents})(BatchDetails )

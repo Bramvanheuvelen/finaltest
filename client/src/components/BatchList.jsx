@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAllBatches, createBatch } from '../actions/batches'
+import { fetchAllBatches, fetchBatch, createBatch } from '../actions/batches'
 import CreateBatch from "./CreateBatch";
 
 class BatchesList extends PureComponent {
@@ -27,10 +27,9 @@ class BatchesList extends PureComponent {
                   </thead>
                   <tbody>
                     { batches.map(batch => (<tr key={batch.id}>
-                      <td><Link to={ `/batches/${batch.id}` }>Class {batch.batchId}</Link></td>
+                      <td><Link to={ `/batches/${batch.id}` } onClick={() => this.fetchBatch(batch.id)}>Class {batch.id}</Link></td>
                       <td>{batch.startDate}</td>
                       <td>{batch.endDate}</td>
-                     {/* <td><button onClick={ () => this.deleteAds(ad.id) }>X</button></td> */}
                     </tr>)) }
                   </tbody>
                 </table>
@@ -47,4 +46,4 @@ const mapStateToProps = (state) => ({
     batches: state.batches
 })
 
-export default connect(mapStateToProps, { fetchAllBatches, createBatch })(BatchesList)
+export default connect(mapStateToProps, { fetchAllBatches, fetchBatch, createBatch })(BatchesList)

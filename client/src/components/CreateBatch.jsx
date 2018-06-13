@@ -6,7 +6,7 @@ class CreateBatch extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.state = {
-            batchId: '',
+            batch_id: '',
             startDate: '',
             endDate: ''
         }
@@ -32,23 +32,23 @@ class CreateBatch extends PureComponent {
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<div>
-					<label htmlFor="batchId">Batch nr</label>
-					<input name="batchId" id="batchId" type="integer" value={
-						this.state.batchId || ''
+					<label htmlFor="batch_id">Batch nr</label>
+					<input name="batch_id" id="batch_id" value={
+						this.state.batch_id || ''
 					} onChange={ this.handleChange } />
 				</div>
 
 				<div>
 					<label htmlFor="startDate">Start Date</label>
 					<input name="startDate" id="startDate" value={
-						this.state.startDate || ''
+						this.state.startDate ||  ''
 					} onChange={ this.handleChange } />
 				</div>
 
 				<div>
 					<label htmlFor="endDate">End Date</label>
 					<input name="endDate" id="endDate" value={
-						this.state.endDate || ''
+						this.state.endDate ||  ''
 					} onChange={ this.handleChange } />
 				</div>
 
