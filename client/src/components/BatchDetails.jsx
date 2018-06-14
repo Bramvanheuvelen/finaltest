@@ -1,23 +1,11 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { fetchBatch } from "../actions/batch";
-import { fetchAllBatches } from "../actions/batches";
 import { addStudent, deleteStudent, fetchStudent } from "../actions/students";
 import CreateStudent from "./CreateStudent";
 import { Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-
-//import PropTypes from 'prop-types';
-//import { withStyles } from '@material-ui/core/styles';
-// import GridList from '@material-ui/core/GridList';
-// import GridListTile from '@material-ui/core/GridListTile';
-// import GridListTileBar from '@material-ui/core/GridListTileBar';
-// import ListSubheader from '@material-ui/core/ListSubheader';
-// import IconButton from '@material-ui/core/IconButton';
-// import InfoIcon from '@material-ui/icons/Info';
-//import tileData from './tileData';
-
 
 class BatchDetails extends PureComponent {
   state = {}
@@ -45,29 +33,55 @@ class BatchDetails extends PureComponent {
     const { batch } = this.props;
     if (!batch) return null
 
+    const totalStudents = batch.students.length
+    const redStudents = this.props.batch.students.filter(student => student.score === "Red").length
+    const yellowStudents = this.props.batch.students.filter(student => student.score === "Yellow").length
+    const greenStudents = this.props.batch.students.filter(student => student.score === "Green").length
+    const redStudentsPart = redStudents/totalStudents * 100
+    const yellowStudentsPart = yellowStudents/totalStudents * 100
+    const greenStudentsPart = greenStudents/totalStudents * 100
+
+
+
     return (
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
           <Paper className="styles" elevation={4}>
+            <div style={{width: Math.floor( redStudentsPart ) + '%', backgroundColor: 'red', float: "left", color: "black", textAlign: "center"}}>{Math.floor(redStudentsPart)}% Red score</div>
+            <div style={{width: Math.floor( yellowStudentsPart ) + '%', backgroundColor: 'yellow', float: "left", color: "black", textAlign: "center"}}>{Math.floor(yellowStudentsPart)}% Yellow score</div>
+            <div style={{width: Math.floor( greenStudentsPart ) + '%', backgroundColor: 'green', float: "right", color: "black", textAlign: "center"}}>{Math.floor(greenStudentsPart)}% Green score</div>
+            <div style={{clear: "both"}}> </div>
             <br />
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Picture</th>
                   <th>First name</th>
                   <th>Last name</th>
-                  <th>Picture</th>
+                  <th>Last given score</th>
                 </tr>
               </thead>
          
               <tbody>
                 {batch.students.map((student) => (
                   <tr key={student.id}>
-                    <td>{student.id}</td>
-                    <td>{student.surname}</td>
-                    <td>{student.lastname}</td>
-                    <td>{student.picture}</td>
+                    <td><Link
+                      className="link"
+                      to={`/students/${student.id}`}
+                      onClick={() => this.fetchStudent(student.id)}
+                    >{student.picture}</Link></td>
+                    <td><Link
+                      className="link"
+                      to={`/students/${student.id}`}
+                      onClick={() => this.fetchStudent(student.id)}
+                    >{student.surname}</Link></td>
+                    <td><Link
+                      className="link"
+                      to={`/students/${student.id}`}
+                      onClick={() => this.fetchStudent(student.id)}
+                    >{student.lastname}</Link></td>
+                    <td>{student.score}</td>
                     <td>
                       {" "}
                       <Button
@@ -76,7 +90,7 @@ class BatchDetails extends PureComponent {
                       Delete Student
                       </Button>
                     </td>
-                    <td>
+                    {/* <td>
                       {" "}
                       <Link
                         className="link"
@@ -85,7 +99,7 @@ class BatchDetails extends PureComponent {
                       >
                       Student profile
                       </Link>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -103,4 +117,4 @@ const mapStateToProps = function(state) {
   };
 };
 
-export default connect(mapStateToProps,{fetchBatch,fetchAllBatches,addStudent,deleteStudent,fetchStudent})(BatchDetails);
+export default connect(mapStateToProps,{fetchBatch,addStudent,deleteStudent,fetchStudent})(BatchDetails);

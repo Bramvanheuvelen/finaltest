@@ -18,10 +18,6 @@ class CreateStudent extends PureComponent {
       batch_id: Number((window.location.href).split('/').pop())
     }
   }
-	
-  // componentDidMount() {
-  //   this.props.fetchBatch(this.props.match.params.id)
-  // }
 
   handleSubmit = e => {
     e.preventDefault();
