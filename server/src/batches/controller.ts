@@ -13,7 +13,7 @@ async createBatch(
 }
 
 @Get('/batches/:id([0-9]+)')
-getEvaluation(
+getBatch(
   @Param('id') id: number
 ) {
   return Batch.findOne(id)

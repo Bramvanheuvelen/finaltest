@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm'
-import { IsString } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import {BaseEntity} from 'typeorm/repository/BaseEntity'
 import { Evaluation } from '../evaluations/entity';
 import { Batch } from '../batches/entity'
@@ -22,9 +22,10 @@ export class Student extends BaseEntity {
   @Column('text')
   picture: string
 
-  // @IsString()
-  // @Column('integer')
-  // batchId: number
+  @IsOptional()
+  @IsString()
+  @Column('text', {nullable: true})
+  score: string
 
   @OneToMany(_ => Evaluation, evaluation => evaluation.student, {eager:true})
   evaluations: Evaluation[];
