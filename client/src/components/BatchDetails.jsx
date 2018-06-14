@@ -6,6 +6,7 @@ import CreateStudent from "./CreateStudent";
 import { Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+//import AskQuestion from './Question'
 
 class BatchDetails extends PureComponent {
   state = {}
@@ -18,6 +19,7 @@ class BatchDetails extends PureComponent {
     const { batch } = this.props;
     student = { ...student, batch: batch.id };
     this.props.addStudent(student);
+    this.props.onSubmit(this.state)
   };
 
   deleteStudent(studentId) {
@@ -27,6 +29,25 @@ class BatchDetails extends PureComponent {
 
   fetchStudent(studentId) {
     this.props.fetchStudent(studentId);
+  }
+
+  chooseColor = () => {
+
+    const Red = []
+    const Yellow = []
+    const Green = []
+
+    const randomColor = Math.floor(Math.random() * 100) + 1
+    
+    if (randomColor <= 45) {Red.push(this.props.batch.students.filter(student => student.score === "Red"))}
+    else if (randomColor >= 81) {Green.push(this.props.batch.students.filter(student => student.score === "Green"))}
+    else {Yellow.push(this.props.batch.students.filter(student => student.score === "Yellow"))}
+    console.log(Red)
+    console.log(Yellow)
+    console.log(Green)
+
+
+    
   }
 
   render() {
@@ -41,17 +62,14 @@ class BatchDetails extends PureComponent {
     const yellowStudentsPart = yellowStudents/totalStudents * 100
     const greenStudentsPart = greenStudents/totalStudents * 100
 
-
-
     return (
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
           <Paper className="styles" elevation={4}>
-            <div style={{width: Math.floor( redStudentsPart ) + '%', backgroundColor: 'red', float: "left", color: "black", textAlign: "center"}}>{Math.floor(redStudentsPart)}% Red score</div>
-            <div style={{width: Math.floor( yellowStudentsPart ) + '%', backgroundColor: 'yellow', float: "left", color: "black", textAlign: "center"}}>{Math.floor(yellowStudentsPart)}% Yellow score</div>
-            <div style={{width: Math.floor( greenStudentsPart ) + '%', backgroundColor: 'green', float: "right", color: "black", textAlign: "center"}}>{Math.floor(greenStudentsPart)}% Green score</div>
-            <div style={{clear: "both"}}> </div>
+            <div style={{width: Math.floor(redStudentsPart), backgroundColor: 'red', color: "black", textAlign: "center"}}>{Math.floor(redStudentsPart)}% Red score</div>
+            <div style={{width: Math.floor(yellowStudentsPart), backgroundColor: 'yellow', color: "black", textAlign: "center"}}>{Math.floor(yellowStudentsPart)}% Yellow score</div>
+            <div style={{width: Math.floor(greenStudentsPart), backgroundColor: 'green', color: "black", textAlign: "center"}}>{Math.floor(greenStudentsPart)}% Green score</div>
             <br />
             <table>
               <thead>
@@ -61,8 +79,7 @@ class BatchDetails extends PureComponent {
                   <th>Last name</th>
                   <th>Last given score</th>
                 </tr>
-              </thead>
-         
+              </thead>       
               <tbody>
                 {batch.students.map((student) => (
                   <tr key={student.id}>
@@ -90,22 +107,13 @@ class BatchDetails extends PureComponent {
                       Delete Student
                       </Button>
                     </td>
-                    {/* <td>
-                      {" "}
-                      <Link
-                        className="link"
-                        to={`/students/${student.id}`}
-                        onClick={() => this.fetchStudent(student.id)}
-                      >
-                      Student profile
-                      </Link>
-                    </td> */}
                   </tr>
                 ))}
               </tbody>
             </table>
             <h1>Add new student</h1>
             <CreateStudent onSubmit={this.addStudent} />
+            <Button variant="raised" onClick={this.chooseColor}>ASK A QUESTION</Button>
           </Paper>)}
       </div>
     )}}
@@ -113,7 +121,7 @@ class BatchDetails extends PureComponent {
 const mapStateToProps = function(state) {
   return {
     batch: state.batch,
-    students: state.students
+    students: state.students,
   };
 };
 

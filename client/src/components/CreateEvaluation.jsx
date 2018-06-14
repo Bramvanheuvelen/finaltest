@@ -9,12 +9,16 @@ import { addLastEvaluation } from '../actions/students'
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import { Redirect } from 'react-router'
+
 
 class CreateEvaluation extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
+      batch: this.state,
+      fireRedirect: false,
       remark: '',
       date: new Date(),
       teacher_id: '',
@@ -31,8 +35,9 @@ class CreateEvaluation extends PureComponent {
     this.setState({
       score: "",
       remark: "",
-      date: '',
-      selectedValue: ""
+      date: new Date(),
+      selectedValue: "",
+      fireRedirect: true
     });
   };
 
@@ -47,13 +52,52 @@ class CreateEvaluation extends PureComponent {
 
   render() {
     const initialValues = this.props.initialValues || {};
+    const { fireRedirect } = this.state
 
     return (
       <div>
         <Paper className="styles" elevation={4}>
           <form onSubmit={this.handleSubmit}>
             <div>
-              <br/>
+              <br />
+              <div>
+                <TextField
+                  label="Remark"
+                  name="remark"
+                  id="remark"
+                  value={this.state.remark || initialValues.remark || ""}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <label>Evaluation Date</label><br/>	
+                <TextField
+                  label=""
+                  name="date"
+                  id="date"
+                  type="date"
+                  value={this.state.date || initialValues.date || ""}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <TextField
+                  label="Your ID"
+                  name="teacher_id"
+                  id="teacher_id"
+                  value={this.state.teacher_id || initialValues.teacher_id || ""}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <TextField
+                  label="Student ID"
+                  name="student_id"
+                  id="student_id"
+                  value={this.state.student_id || initialValues.student_id || ""}
+                  onChange={this.handleChange}
+                />
+              </div>
               <FormLabel component="legend">Score</FormLabel>
               <FormControlLabel
                 value="Green"
@@ -81,51 +125,23 @@ class CreateEvaluation extends PureComponent {
               />
             </div>
             <br />
-            <div>
-              <TextField
-                label="Remark"
-                name="remark"
-                id="remark"
-                value={this.state.remark || initialValues.remark || ""}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div>
-              <label>Evaluation Date</label><br/>	
-              <TextField
-                label=""
-                name="date"
-                id="date"
-                type="date"
-                value={this.state.date || initialValues.date || ""}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div>
-              <TextField
-                label="Your ID"
-                name="teacher_id"
-                id="teacher_id"
-                value={this.state.teacher_id || initialValues.teacher_id || ""}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div>
-              <TextField
-                label="Student ID"
-                name="student_id"
-                id="student_id"
-                value={this.state.student_id || initialValues.student_id || ""}
-                onChange={this.handleChange}
-              />
-            </div>
-            <br />
-            <Button type="submit">ADD EVALUATION</Button>
+            <Button type="submit">SAVE</Button> {' '}
+            <Button type="submit">SAVE & NEXT</Button>
           </form>
+          {fireRedirect && (
+            <Redirect to={`/batches/${this.props.batch.id}`}/>
+          )}
+
         </Paper>
       </div>
     );
   }
 }
 
-export default connect(null, {addEvaluation, addLastEvaluation})(CreateEvaluation)
+const mapStateToProps = function(state) {
+  return {
+    batch: state.batch
+  };
+};
+
+export default connect(mapStateToProps, {addEvaluation, addLastEvaluation})(CreateEvaluation)

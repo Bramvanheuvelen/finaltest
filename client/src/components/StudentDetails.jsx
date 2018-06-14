@@ -56,11 +56,11 @@ class StudentDetails extends PureComponent {
         <br />
         <CreateEvaluation onSubmit={this.addEvaluation} />
         <Paper className="styles" elevation={4}>
-        <br />
+          <br />
           {this.state.edit && <CreateStudent initialValues={student} onSubmit={this.updateStudent} />}
           {!this.state.edit && (
             <div>
-              <Button onClick={this.toggleEdit}>edit</Button>
+              <Button onClick={this.toggleEdit}>Edit student details</Button>
               <h1>
                 {student.picture} {' '}
                 {student.surname} {' '}
