@@ -5,6 +5,7 @@ import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addEvaluation } from '../actions/evaluations'
+import { addLastEvaluation } from '../actions/students'
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
@@ -13,7 +14,12 @@ class CreateEvaluation extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      remark: '',
+      date: new Date(),
+      teacher_id: '',
+      student_id: Number((window.location.href).split('/').pop())
+    };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -21,6 +27,7 @@ class CreateEvaluation extends PureComponent {
   handleSubmit = e => {
     e.preventDefault();
     this.props.addEvaluation(this.state);
+    this.props.addLastEvaluation(this.state);
     this.setState({
       score: "",
       remark: "",
@@ -121,4 +128,4 @@ class CreateEvaluation extends PureComponent {
   }
 }
 
-export default connect(null, {addEvaluation})(CreateEvaluation)
+export default connect(null, {addEvaluation, addLastEvaluation})(CreateEvaluation)

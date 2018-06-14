@@ -54,6 +54,7 @@ class BatchDetails extends PureComponent {
             <table>
               <thead>
                 <tr>
+                  <th>ID</th>
                   <th>First name</th>
                   <th>Last name</th>
                   <th>Picture</th>
@@ -63,6 +64,7 @@ class BatchDetails extends PureComponent {
               <tbody>
                 {batch.students.map((student) => (
                   <tr key={student.id}>
+                    <td>{student.id}</td>
                     <td>{student.surname}</td>
                     <td>{student.lastname}</td>
                     <td>{student.picture}</td>

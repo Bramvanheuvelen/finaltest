@@ -48,7 +48,7 @@ class BatchesList extends PureComponent {
                     {batch.startDate.slice(0, 10)}
                   </td>
                   <td>{batch.endDate.slice(0, 10)}</td>
-                  <td>{batch.students.length}</td>
+                  {/* <td>{batch.students.length}</td> */}
                   <td>
                     <Link
                       className="link"

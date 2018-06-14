@@ -15,7 +15,7 @@ class CreateStudent extends PureComponent {
       surname: '',
       lastname: '',
       picture: '',
-      batch_id: ''
+      batch_id: Number((window.location.href).split('/').pop())
     }
   }
 	
@@ -30,7 +30,7 @@ class CreateStudent extends PureComponent {
       initialValues: "",
       surname: "",
       lastname: "",
-      picture: ""
+      picture: "",
     });
   };
 

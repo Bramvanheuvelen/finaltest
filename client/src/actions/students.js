@@ -5,6 +5,7 @@ export const FETCH_STUDENT = 'FETCH_STUDENT'
 export const ADD_STUDENT = 'ADD_STUDENT'
 export const DELETE_STUDENT = 'DELETE_STUDENT'
 export const UPDATE_STUDENT = 'UPDATE_STUDENT'
+export const ADD_EVALUATION = 'ADD_EVALUATION'
 
 const baseUrl = "http://localhost:4000"
 
@@ -79,6 +80,23 @@ export const deleteStudent = studentId => (dispatch, getState) => {
       dispatch({
         type: DELETE_STUDENT,
         payload: state
+      })
+    );
+};
+
+export const addLastEvaluation = (evaluation) => (dispatch, getState) => {
+  const state = getState()
+  if (!state.currentUser) return null
+  const jwt = state.currentUser.jwt
+
+  request
+    .put(`${baseUrl}/students/${evaluation.student_id}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(evaluation)
+    .then(response =>
+      dispatch({
+        type: ADD_EVALUATION,
+        payload: response.body
       })
     );
 };

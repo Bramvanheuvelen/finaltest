@@ -3,6 +3,7 @@ import * as request from "superagent";
 export const FETCHED_ALL_EVALUATIONS = 'FETCHED_ALL_EVALUATIONS'
 export const FETCH_EVALUATION = 'FETCH_EVALUATION'
 export const ADD_EVALUATION = 'ADD_EVALUATION'
+export const ADD_LAST_EVALUATION = 'ADD_LAST_EVALUATION'
 
 const baseUrl = "http://localhost:4000"
 
@@ -33,6 +34,17 @@ export const addEvaluation = (evaluation) => (dispatch) => {
       payload: response.body.entity
     }))
 }
+
+// export const addLastEvaluation = (lastevaluation, student_id) => (dispatch) => {
+//   console.log(lastevaluation)
+//   request
+//     .put(`${baseUrl}/students/${student_id.lastevaluation}`)
+//     .send(lastevaluation)
+//     .then(response => dispatch({
+//       type: ADD_LAST_EVALUATION,
+//       payload: response.body.entity
+//     }))
+// }
 
 export const fetchEvaluation = (id) => (dispatch, getState) => {
   const state = getState()

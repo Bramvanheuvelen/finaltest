@@ -46,6 +46,10 @@ class StudentDetails extends PureComponent {
     const { student} = this.props;
     if (!student) return null;
 
+    const OrderedDate = student.evaluations.sort(function(a, b) {
+      return a.date - b.date;
+    });
+
     return (
       <div>
         {this.state.edit && <CreateStudent onSubmit={this.updateStudent} />}
@@ -53,6 +57,7 @@ class StudentDetails extends PureComponent {
           <div>
             <Button onClick={this.toggleEdit}>edit</Button>
             <h1>
+              {student.id}
               {student.surname}
               {student.lastname}
             </h1>
@@ -62,14 +67,16 @@ class StudentDetails extends PureComponent {
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Score</th>
                 <th>Evaluation date</th>
                 <th>Remark</th>
               </tr>
             </thead>
             <tbody>
-              {student.evaluations.map(evaluation => (
+              {OrderedDate.map(evaluation => (
                 <tr key={evaluation.id}>
+                  <td>{student.id}</td>
                   <td>{evaluation.score}</td>
                   <td>{evaluation.date.slice(0, 10)}</td>
                   <td>{evaluation.remark}</td>
