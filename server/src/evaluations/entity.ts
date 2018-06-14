@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
-import { IsString } from 'class-validator';
+import { IsString, IsDate } from 'class-validator';
 import {Type} from "class-transformer";
 import {BaseEntity} from 'typeorm/repository/BaseEntity'
 import Teacher from '../teachers/entity'
@@ -20,6 +20,8 @@ export class Evaluation extends BaseEntity {
   @Column('text')
   remark: string
 
+  @IsDate()
+  @Column('date')
   @Type(() => Date)
 @Column('text')
 date: Date

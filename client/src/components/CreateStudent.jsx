@@ -1,68 +1,106 @@
-import React, {PureComponent} from 'react'
-import { connect } from 'react-redux'
-import { createStudent } from '../actions/students'
+import React, { PureComponent } from "react";
+import { connect} from 'react-redux'
+import Paper from "@material-ui/core/Paper";
+import "../App.css";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { addStudent } from '../actions/students'
+import { fetchBatch } from '../actions/batch'
 
 class CreateStudent extends PureComponent {
-	constructor(props) {
-		super(props)
-		this.state = {
-            surname: '',
-            lastname: '',
-            picture: '',
-            batch_id: ''
-        }
-		
-	}
+  constructor(props) {
+    super(props);
 
-	handleSubmit = (e) => {
-		e.preventDefault()
-		this.props.createStudent(this.state)
-	}
+    this.state = {
+      surname: '',
+      lastname: '',
+      picture: '',
+      batch_id: Number((window.location.href).split('/').pop())
+    }
+  }
+	
+  // componentDidMount() {
+  //   this.props.fetchBatch(this.props.match.params.id)
+  // }
 
-	handleChange = (event) => {
-		const {name, value} = event.target
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.addStudent(this.state);
+    this.setState({
+      initialValues: "",
+      surname: "",
+      lastname: "",
+      picture: "",
+    });
+  };
 
-		this.setState({
-		  [name]: value
-		})
-	}
+  handleChange = event => {
+    const { name, value } = event.target;
 
-	render() {
+    this.setState({
+      [name]: value
+    });
+  };
 
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<div>
-					<label htmlFor="surname">Surname: </label>
-					<input name="surname" id="surname" value={
-						this.state.surname || ''
-					} onChange={ this.handleChange } />
-				</div>
+  render() {
+    const initialValues = this.props.initialValues || {};
 
-				<div>
-					<label htmlFor="lastname">Last name: </label>
-					<input name="lastname" id="lastname" value={
-						this.state.lastname ||  ''
-					} onChange={ this.handleChange } />
-				</div>
-
-				<div>
-					<label htmlFor="picture">Picture url: </label>
-					<input name="picture" id="picture" value={
-						this.state.picture ||  ''
-					} onChange={ this.handleChange } />
-				</div>
-
-                <div>
-					<label htmlFor="batch_id">Batch nr: </label>
-					<input name="batch_id" id="batch_id" type="integer" value={
-						this.state.batch_id ||  ''
-					} onChange={ this.handleChange } />
-				</div>
-
-				<button type="submit" onSubmit={this.handleSubmit}>Save</button>
-			</form>
-		)
-	}
+    return (
+      <div>
+        <Paper className="styles" elevation={4}>
+          <form onSubmit={this.handleSubmit}>
+            <div>
+              <TextField
+                label="Sur name"
+                name="surname"
+                id="surname"
+                value={this.state.surname || initialValues.surname || ""}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
+            <div>
+              <TextField
+                label="Last name"
+                name="lastname"
+                id="lastname"
+                value={this.state.lastname || initialValues.lastname || ""}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
+            <div>
+              <TextField
+                label="Picture"
+                name="picture"
+                id="picture"
+                value={this.state.picture || initialValues.picture || ""}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
+            <div>
+              <TextField
+                label="Batch nr"
+                name="batch_id"
+                id="batch_id"
+                value={this.state.batch_id || initialValues.batch_id || ""}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
+            <Button type="submit">SUBMIT</Button>
+          </form>
+        </Paper>
+      </div>
+    );
+  }
 }
 
-export default connect(null, {createStudent})(CreateStudent)
+const mapStateToProps = function(state) {
+  return {
+    batch: state.batch
+  };
+};
+
+export default connect(mapStateToProps, {addStudent, fetchBatch})(CreateStudent)

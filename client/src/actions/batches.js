@@ -39,7 +39,7 @@ export const fetchBatch = (id) => (dispatch, getState) => {
   if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
 
-    request
+  request
     .get(`${baseUrl}/batches/${id}`)
     .set('Authorization', `Bearer ${jwt}`)
     .then(response => dispatch({
@@ -47,6 +47,6 @@ export const fetchBatch = (id) => (dispatch, getState) => {
       payload: response.body
     }))
     .catch(err => alert(err))
-    }
+}
   
 

@@ -25,10 +25,10 @@ const theme = createMuiTheme({
   },
   overrides: {
     MuiTypography : {
-        //fontFamily: 'Luckiest Guy',
-        colorPrimary: {color: "green"},
-        colorTextSecondary: {color: "red"},
-        colorSecondary: {color: "yellow"}      
+      //fontFamily: 'Luckiest Guy',
+      colorPrimary: {color: "green"},
+      colorTextSecondary: {color: "red"},
+      colorSecondary: {color: "yellow"}      
     },
     MuiButton: {
       root: {
@@ -44,11 +44,11 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-	<Provider store={store}>
-	<MuiThemeProvider theme={theme}>
-		<App />
-		</MuiThemeProvider>
-	</Provider>,
-	document.getElementById('root')
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
+  </Provider>,
+  document.getElementById('root')
 )
 registerServiceWorker()

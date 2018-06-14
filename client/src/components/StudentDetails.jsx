@@ -1,43 +1,102 @@
-import React, {PureComponent} from 'react'
-import {connect} from 'react-redux'
-import {fetchStudent} from '../actions/students'
-//import { Link } from "react-router-dom";
-//import AdForm from './AdForm'
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
+import { updateStudent, fetchStudent } from "../actions/students";
+import { addEvaluation } from "../actions/evaluations";
+import { fetchBatch } from "../actions/batch";
+import CreateStudent from "./CreateStudent";
+import CreateEvaluation from "./CreateEvaluation";
 
 class StudentDetails extends PureComponent {
-  state = {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      edit: false
+    };
+  }
 
-componentWillMount() {
-    this.props.fetchStudent(this.props.match.params.id)
+    toggleEdit = () => {
+      this.setState({
+        edit: !this.state.edit
+      });
+    };
+
+    componentDidMount() {
+      this.props.fetchStudent(this.props.match.params.id)
+    }
+
+  updateStudent = student => {
+    this.props.updateStudent(this.props.match.params.id, student);
+    this.toggleEdit();
+  };
+
+  createEvaluation = evaluation => {
+    const { student } = this.props;
+    evaluation = { ...evaluation, student: student.id };
+    this.props.createEvaluation(evaluation);
+  };
+
+  fetchBatch() {
+    const { student } = this.props;
+    const batchId = student.batch;
+    this.props.fetchBatch(batchId);
   }
 
   render() {
-    const {student} = this.props
-    if (!student) return null
+    const { student} = this.props;
+    if (!student) return null;
+
+    const OrderedDate = student.evaluations.sort(function(a, b) {
+      return a.date - b.date;
+    });
 
     return (
       <div>
+        {this.state.edit && <CreateStudent onSubmit={this.updateStudent} />}
+        {!this.state.edit && (
           <div>
-            <h1>Batch nr { student.surname }</h1>
-            <h3>Start date: { student.lastname }</h3>
-            <h3>End date: { student.picture }</h3>
-            {/* { student.evaluations.map(evaluation => (<tr key={evaluation.id}>
-                      <td> onClick={() => this.fetchEvaluation(evaluation.id)}>See Evaluations</td>
-                      <td>{evaluation.score}</td>
-                      <td>{evaluation.remark}</td>
-                    </tr>)) } */}
+            <Button onClick={this.toggleEdit}>edit</Button>
+            <h1>
+              {student.id}
+              {student.surname}
+              {student.lastname}
+            </h1>
           </div>
+        )}
+        {student.id && (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Score</th>
+                <th>Evaluation date</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              {OrderedDate.map(evaluation => (
+                <tr key={evaluation.id}>
+                  <td>{student.id}</td>
+                  <td>{evaluation.score}</td>
+                  <td>{evaluation.date.slice(0, 10)}</td>
+                  <td>{evaluation.remark}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        <CreateEvaluation onSubmit={this.addEvaluation} />
       </div>
-      
-    )
+    );
   }
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = function(state, props) {
   return {
-    evaluation: state.evaluation,
-    student: state.student
-  }
-}
+    student: state.student,
+    evaluations: state.evaluations
+  };
+};
 
-export default connect(mapStateToProps, {fetchStudent})(StudentDetails )
+export default connect(mapStateToProps,{fetchStudent, updateStudent, fetchBatch, addEvaluation})(StudentDetails);

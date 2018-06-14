@@ -19,7 +19,7 @@ async createStudent(
 }
 
 @Put('/students/:id')
-async updatePage(
+async updateStudent(
   @Param('id') id: number,
   @Body() update: Partial<Student>
 ) {

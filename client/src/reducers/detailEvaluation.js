@@ -1,8 +1,8 @@
-import {FETCH_BATCH} from '../actions/batches'
+import {FETCH_EVALUATION} from '../actions/evaluations'
 
 export default function (state = null, action) {
   switch (action.type) {
-  case FETCH_BATCH:
+  case FETCH_EVALUATION:
     return action.payload
 
   default:
