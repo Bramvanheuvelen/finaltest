@@ -1,4 +1,4 @@
-import { JsonController, Post, Put, Param, Get, Body, HttpCode, NotFoundError, BodyParam } from 'routing-controllers'
+import { JsonController, Post, Put, Param, Get, Body, HttpCode, BodyParam } from 'routing-controllers'
 import { Evaluation } from './entity';
 import { Student } from '../students/entity';
 import Teacher from '../teachers/entity';
@@ -13,10 +13,10 @@ async createEvaluation(
   @BodyParam('student_id', {required:true}) student_id: number,
   @BodyParam('teacher_id', {required:true}) teacher_id: number
 ) {
-  const student = await Student.findOne(student_id)
-  if (student instanceof Student) evaluation.student = student
   const teacher = await Teacher.findOne(teacher_id)
   if (teacher instanceof Teacher) evaluation.teacher = teacher
+  const student = await Student.findOne(student_id)
+  if (student instanceof Student) evaluation.student = student
   const entity = await evaluation.save()
   return { entity }
 }
@@ -27,12 +27,11 @@ async updateEvaluation(
   @Body() update: Partial<Evaluation>
 ) {
   const evaluation = await Evaluation.findOne(id)
-  if (!evaluation) throw new NotFoundError('Cannot find evalutation')
-
+  if (evaluation) 
   return Evaluation.merge(evaluation, update).save()
 }
 
-    @Get('/evaluation/:id([0-9]+)')
+@Get('/evaluation/:id([0-9]+)')
   getEvaluation(
     @Param('id') id: number
   ) {

@@ -57,11 +57,10 @@ export const addStudent = (student) => (dispatch, getState) => {
     }))
 }
 
-export const updateStudent = (id, updates) => (dispatch) => {
-    
+export const updateStudent = (id, student) => (dispatch) => {
   request
     .put(`${baseUrl}/students/${id}`)
-    .send(updates)
+    .send(student)
     .then(response => dispatch({
       type: UPDATE_STUDENT,
       payload: response.body

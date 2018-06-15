@@ -35,17 +35,6 @@ export const addEvaluation = (evaluation) => (dispatch) => {
     }))
 }
 
-// export const addLastEvaluation = (lastevaluation, student_id) => (dispatch) => {
-//   console.log(lastevaluation)
-//   request
-//     .put(`${baseUrl}/students/${student_id.lastevaluation}`)
-//     .send(lastevaluation)
-//     .then(response => dispatch({
-//       type: ADD_LAST_EVALUATION,
-//       payload: response.body.entity
-//     }))
-// }
-
 export const fetchEvaluation = (id) => (dispatch, getState) => {
   const state = getState()
   if (!state.currentUser) return null

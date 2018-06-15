@@ -7,14 +7,12 @@ class CreateBatch extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      batch_id: Number((window.location.href).split('/').pop()),
-      startDate: '',
+      batch_id: '',
+      startDate: new Date(),
       endDate: ''
     }
   }
-
-  // 
-
+	
 	handleSubmit = (e) => {
 	  e.preventDefault()
 	  this.props.createBatch(this.state)
