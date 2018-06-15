@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 import { updateStudent, fetchStudent } from "../actions/students";
 import { addEvaluation } from "../actions/evaluations";
 import { fetchBatch } from "../actions/batch";
-import CreateStudent from "./CreateStudent";
 import CreateEvaluation from "./CreateEvaluation";
 import Paper from '@material-ui/core/Paper'
+import EditStudent from "./EditStudent";
 
 class StudentDetails extends PureComponent {
   constructor(props) {
@@ -27,7 +27,7 @@ class StudentDetails extends PureComponent {
     }
 
   updateStudent = student => {
-    this.props.updateStudent(this.props.match.params.id, student.id);
+    this.props.updateStudent(this.props.match.params.id, student);
     this.toggleEdit();
   };
 
@@ -57,7 +57,7 @@ class StudentDetails extends PureComponent {
         <CreateEvaluation onSubmit={this.addEvaluation} />
         <Paper className="styles" elevation={4}>
           <br />
-          {this.state.edit && <CreateStudent initialValues={student} onSubmit={this.updateStudent} />}
+          {this.state.edit && <EditStudent initialValues={student} onSubmit={this.updateStudent} />}
           {!this.state.edit && (
             <div>
               <Button onClick={this.toggleEdit}>Edit student details</Button>

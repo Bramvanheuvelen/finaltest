@@ -6,7 +6,6 @@ import CreateStudent from "./CreateStudent";
 import { Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-//import AskQuestion from './Question'
 
 class BatchDetails extends PureComponent {
   state = {}
@@ -31,23 +30,29 @@ class BatchDetails extends PureComponent {
     this.props.fetchStudent(studentId);
   }
 
-  chooseColor = () => {
+  randomStudent = () => {
+    const redStudents2 = this.props.batch.students.filter(student => student.score === "Red")
+    const yellowStudents2 = this.props.batch.students.filter(student => student.score === "Yellow")
+    const greenStudents2 = this.props.batch.students.filter(student => student.score === "Green")
 
-    const Red = []
-    const Yellow = []
-    const Green = []
-
-    const randomColor = Math.floor(Math.random() * 100) + 1
+    const Colors = Array(20)
+      .fill("green")
+      .concat(Array(45).fill("red"), Array(35).fill("yellow"));
     
-    if (randomColor <= 45) {Red.push(this.props.batch.students.filter(student => student.score === "Red"))}
-    else if (randomColor >= 81) {Green.push(this.props.batch.students.filter(student => student.score === "Green"))}
-    else {Yellow.push(this.props.batch.students.filter(student => student.score === "Yellow"))}
-    console.log(Red)
-    console.log(Yellow)
-    console.log(Green)
-
-
-    
+    let randomColor = Colors[Math.floor(Math.random() * Colors.length)];
+    let randomStudent;
+    if (randomColor === "red" && redStudents2.length > 0) {
+      randomStudent = redStudents2[Math.floor(Math.random() * redStudents2.length)];
+    }
+    if (randomColor === "green" && greenStudents2.length > 0) {
+      randomStudent = greenStudents2[Math.floor(Math.random() * greenStudents2.length)];
+    }
+    if (randomColor === "yellow" && yellowStudents2.length > 0) {
+      randomStudent = yellowStudents2[Math.floor(Math.random() * yellowStudents2.length)]      
+    } 
+    if (!randomStudent)
+      return this.randomStudent()
+    window.alert(`Send question to: `+ randomStudent.surname + ' ' + randomStudent.lastname + ' ' + randomStudent.picture)
   }
 
   render() {
@@ -58,18 +63,21 @@ class BatchDetails extends PureComponent {
     const redStudents = this.props.batch.students.filter(student => student.score === "Red").length
     const yellowStudents = this.props.batch.students.filter(student => student.score === "Yellow").length
     const greenStudents = this.props.batch.students.filter(student => student.score === "Green").length
-    const redStudentsPart = redStudents/totalStudents * 100
-    const yellowStudentsPart = yellowStudents/totalStudents * 100
-    const greenStudentsPart = greenStudents/totalStudents * 100
-
+    const redStudentsPart = redStudents/totalStudents * 100 || 0
+    const yellowStudentsPart = yellowStudents/totalStudents * 100 || 0
+    const greenStudentsPart = greenStudents/totalStudents * 100 || 0
+  
     return (
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
           <Paper className="styles" elevation={4}>
-            <div style={{width: Math.floor(redStudentsPart), backgroundColor: 'red', color: "black", textAlign: "center"}}>{Math.floor(redStudentsPart)}% Red score</div>
-            <div style={{width: Math.floor(yellowStudentsPart), backgroundColor: 'yellow', color: "black", textAlign: "center"}}>{Math.floor(yellowStudentsPart)}% Yellow score</div>
-            <div style={{width: Math.floor(greenStudentsPart), backgroundColor: 'green', color: "black", textAlign: "center"}}>{Math.floor(greenStudentsPart)}% Green score</div>
+            <div>
+              <div style={{width: Math.floor(redStudentsPart)+ '%', backgroundColor: 'red', float: "left", color: "black", textAlign: "center"}}>{Math.floor(redStudentsPart)}%</div>
+              <div style={{width: Math.floor(yellowStudentsPart)+ '%', backgroundColor: 'yellow', float: "left", color: "black", textAlign: "center"}}>{Math.floor(yellowStudentsPart)}%</div>
+              <div style={{width: Math.floor(greenStudentsPart)+ '%', backgroundColor: 'green',float: "left", color: "black", textAlign: "center"}}>{Math.floor(greenStudentsPart)}%</div>
+            </div>
+            <Button variant="raised" onClick={this.randomStudent}>Who do I ask a random question? gheghe...</Button>
             <br />
             <table>
               <thead>
@@ -113,7 +121,7 @@ class BatchDetails extends PureComponent {
             </table>
             <h1>Add new student</h1>
             <CreateStudent onSubmit={this.addStudent} />
-            <Button variant="raised" onClick={this.chooseColor}>ASK A QUESTION</Button>
+            <Button variant="raised" onClick={this.randomStudent}>ASK A QUESTION</Button>
           </Paper>)}
       </div>
     )}}

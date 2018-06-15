@@ -10,6 +10,7 @@ import './App.css'
 import TopBar from './components/layout/TopBar'
 import CreateStudent from './components/CreateStudent';
 import StudentDetails from './components/StudentDetails';
+import EditStudent from './components/EditStudent'
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
             <Route exact path="/batches/create" component={CreateBatch} />
             <Route exact path="/batches/:id" component={BatchDetails}/>
             <Route exact path="/students/create" component={CreateStudent}/>
+            <Route exact path="/students/edit" component={EditStudent}/>
             <Route exact path="/" render={ () => <Redirect to="/batches" /> } />
           </main>
         </div>
