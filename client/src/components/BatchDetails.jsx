@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { fetchBatch } from "../actions/batch";
 import { addStudent, deleteStudent, fetchStudent } from "../actions/students";
 import CreateStudent from "./CreateStudent";
@@ -11,6 +12,11 @@ class BatchDetails extends PureComponent {
   state = {}
 
   componentDidMount() {
+    this.props.fetchBatch(this.props.match.params.id)
+  }
+
+  componentWillUnmount() {
+    this.props.studentActionNull()
     this.props.fetchBatch(this.props.match.params.id)
   }
 
@@ -66,6 +72,8 @@ class BatchDetails extends PureComponent {
     const redStudentsPart = redStudents/totalStudents * 100 || 0
     const yellowStudentsPart = yellowStudents/totalStudents * 100 || 0
     const greenStudentsPart = greenStudents/totalStudents * 100 || 0
+
+    if (this.props.refresh === true) return (<Redirect to={`/batches/${Number((window.location.href).split('/').pop())}`} />)
   
     return (
       <div>

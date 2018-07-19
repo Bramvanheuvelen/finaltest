@@ -6,6 +6,7 @@ export const ADD_STUDENT = 'ADD_STUDENT'
 export const DELETE_STUDENT = 'DELETE_STUDENT'
 export const UPDATE_STUDENT = 'UPDATE_STUDENT'
 export const ADD_EVALUATION = 'ADD_EVALUATION'
+export const ACTION_NULL = 'ACTION_NULL'
 
 const baseUrl = "http://localhost:4000"
 
@@ -53,7 +54,7 @@ export const addStudent = (student) => (dispatch, getState) => {
     .send(student)
     .then(response => dispatch({
       type: ADD_STUDENT,
-      payload: response.body.entity
+      payload: response.body
     }))
 }
 
@@ -99,3 +100,7 @@ export const addLastEvaluation = (evaluation) => (dispatch, getState) => {
       })
     );
 };
+
+export const studentActionNull = () => ({
+  type: ACTION_NULL
+})

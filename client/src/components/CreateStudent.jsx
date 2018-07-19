@@ -1,10 +1,11 @@
 import React, { PureComponent } from "react";
 import { connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import Paper from "@material-ui/core/Paper";
 import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { addStudent } from '../actions/students'
+import { addStudent, studentActionNull  } from '../actions/students'
 import { fetchBatch } from '../actions/batch'
 
 class CreateStudent extends PureComponent {
@@ -30,6 +31,12 @@ class CreateStudent extends PureComponent {
     });
   };
 
+  componentWillUnmount() {
+    this.props.studentActionNull();
+    this.props.fetchBatch();
+  };
+
+
   handleChange = event => {
     const { name, value } = event.target;
 
@@ -40,6 +47,7 @@ class CreateStudent extends PureComponent {
 
   render() {
     const initialValues = this.props.initialValues || {};
+    if (this.props.refresh === true) return (<Redirect to={`/batches/${Number((window.location.href).split('/').pop())}`} />)
 
     return (
       <div>
@@ -95,8 +103,9 @@ class CreateStudent extends PureComponent {
 
 const mapStateToProps = function(state) {
   return {
-    batch: state.batch
+    batch: state.batch,
+    refresh: state.refresh
   };
 };
 
-export default connect(mapStateToProps, {addStudent, fetchBatch})(CreateStudent)
+export default connect(mapStateToProps, {addStudent, fetchBatch, studentActionNull})(CreateStudent)
